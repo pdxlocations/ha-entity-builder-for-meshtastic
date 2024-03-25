@@ -49,7 +49,7 @@ with open("output.txt", "w") as file:
 
 for node in node_info:
 
-    print (node)
+    # print (node)
     node_short_name = f"{node['short_name']}"
     node_long_name = f"{node['long_name']}"
     node_id = f"{node['node_id']}"
@@ -169,7 +169,7 @@ for node in node_info:
         {{% endif %}}
         '''
 
-    with open("output.txt", "a") as file:
+    with open("meshtastic_entities.txt", "a") as file:
         file.write(config + '\n')
 
 iface.close()
