@@ -66,9 +66,9 @@ for node in node_info:
     {{% if value_json.from == {node_id} and
         value_json.payload.voltage is defined and
         value_json.payload.temperature is not defined %}}
-    {{% (value_json.payload.voltage | float) | round(2) %}}
+    {{{{ (value_json.payload.voltage | float) | round(2) }}}}
     {{% else %}}
-    {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage') %}}
+    {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage') }}}}
     {{% endif %}}
   unit_of_measurement: "Volts"
 
@@ -78,9 +78,9 @@ for node in node_info:
   state_class: measurement
   value_template: >-
     {{% if value_json.from == {node_id} and value_json.payload.battery_level is defined %}}
-        {{% (value_json.payload.battery_level | float) | round(2) %}}
+        {{{{ (value_json.payload.battery_level | float) | round(2) }}}}
     {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_percent') %}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_percent') }}}}
     {{% endif %}}
   unit_of_measurement: "%"
 
@@ -90,9 +90,9 @@ for node in node_info:
   state_class: measurement
   value_template: >-
     {{% if value_json.from == {node_id} and value_json.payload.channel_utilization is defined %}}
-        {{% (value_json.payload.channel_utilization | float) | round(2) %}}
+        {{{{ (value_json.payload.channel_utilization | float) | round(2) }}}}
     {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_chutil') %}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_chutil') }}}}
     {{% endif %}}
   unit_of_measurement: "%"
 
@@ -102,9 +102,9 @@ for node in node_info:
   state_class: measurement
   value_template: >-
     {{% if value_json.from == {node_id} and value_json.payload.air_util_tx is defined %}}
-        {{% (value_json.payload.air_util_tx | float) | round(2) %}}
+        {{{{ (value_json.payload.air_util_tx | float) | round(2) }}}}
     {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_airutiltx') %}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_airutiltx') }}}}
     {{% endif %}}
   unit_of_measurement: "%"
 
@@ -114,9 +114,9 @@ for node in node_info:
   state_class: measurement
   value_template: >-
     {{% if value_json.from == {node_id} and value_json.payload.temperature is defined %}}
-        {{% (((value_json.payload.temperature | float) * 1.8) +32) | round(2) %}}
+        {{{{ (((value_json.payload.temperature | float) * 1.8) +32) | round(2) }}}}
     {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') %}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
     {{% endif %}}
   unit_of_measurement: "F"
 # For Celsius use:    {{ (value_json.payload.temperature | float) | round(1) }}
@@ -128,9 +128,9 @@ for node in node_info:
   state_class: measurement
   value_template: >-
     {{% if value_json.from == {node_id} and value_json.payload.relative_humidity is defined %}}
-        {{% (value_json.payload.relative_humidity | float) | round(2) %}}
+        {{{{ (value_json.payload.relative_humidity | float) | round(2) }}}}
     {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_humidity') %}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_humidity') }}}}
     {{% endif %}}
   unit_of_measurement: "%"
 
@@ -140,9 +140,9 @@ for node in node_info:
   state_class: measurement
   value_template: >-
     {{% if value_json.from == {node_id} and value_json.payload.barometric_pressure is defined %}}
-        {{% (value_json.payload.barometric_pressure | float) | round(2) %}}
+        {{{{ (value_json.payload.barometric_pressure | float) | round(2) }}}}
     {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_pressure') %}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_pressure') }}}}
     {{% endif %}}
   unit_of_measurement: "hPa"
 
@@ -152,9 +152,9 @@ for node in node_info:
   state_class: measurement
   value_template: >-
     {{% if value_json.from == {node_id} and value_json.payload.gas_resistance is defined %}}
-        {{% (value_json.payload.gas_resistance | float) | round(2) %}}
+        {{{{ (value_json.payload.gas_resistance | float) | round(2) }}}}
     {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_gas_resistance') %}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_gas_resistance') }}}}
     {{% endif %}}
   unit_of_measurement: "MOhms"
 
@@ -163,9 +163,9 @@ for node in node_info:
   state_topic: "{root_topic}/{gateway_id}"
   value_template: >-
     {{% if value_json.from == {node_id} and value_json.payload.text is defined %}}
-        {{% value_json.payload.text %}}
+        {{{{ value_json.payload.text }}}}
     {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_messages') %}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_messages') }}}}
     {{% endif %}}
         '''
 
