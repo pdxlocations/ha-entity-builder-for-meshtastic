@@ -144,7 +144,7 @@ for node in node_info:
     {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_pressure') %}}
     {{% endif %}}
-unit_of_measurement: "hPa"
+  unit_of_measurement: "hPa"
 
 - name: "{node_short_name} Gas Resistance"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_gas_resistance"
