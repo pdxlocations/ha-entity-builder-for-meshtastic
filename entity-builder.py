@@ -59,114 +59,114 @@ for node in node_info:
     config = f'''
 # {node_long_name}
 - name: "{node_short_name} Battery Voltage"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-        {{% if value_json.from == {node_id} and
-            value_json.payload.voltage is defined and
-            value_json.payload.temperature is not defined %}}
-        {{% (value_json.payload.voltage | float) | round(2) %}}
-        {{% else %}}
-        {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage') %}}
-        {{% endif %}}
-    unit_of_measurement: "Volts"
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage"
+  state_topic: "{root_topic}/{gateway_id}"
+  state_class: measurement
+  value_template: >-
+    {{% if value_json.from == {node_id} and
+        value_json.payload.voltage is defined and
+        value_json.payload.temperature is not defined %}}
+    {{% (value_json.payload.voltage | float) | round(2) %}}
+    {{% else %}}
+    {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage') %}}
+    {{% endif %}}
+  unit_of_measurement: "Volts"
 
 - name: "{node_short_name} Battery Percent"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_percent"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-        {{% if value_json.from == {node_id} and value_json.payload.battery_level is defined %}}
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_percent"
+  state_topic: "{root_topic}/{gateway_id}"
+  state_class: measurement
+  value_template: >-
+    {{% if value_json.from == {node_id} and value_json.payload.battery_level is defined %}}
         {{% (value_json.payload.battery_level | float) | round(2) %}}
-        {{% else %}}
+    {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_percent') %}}
-        {{% endif %}}
-    unit_of_measurement: "%"
+    {{% endif %}}
+  unit_of_measurement: "%"
 
 - name: "{node_short_name} ChUtil"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_chutil"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-        {{% if value_json.from == {node_id} and value_json.payload.channel_utilization is defined %}}
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_chutil"
+  state_topic: "{root_topic}/{gateway_id}"
+  state_class: measurement
+  value_template: >-
+    {{% if value_json.from == {node_id} and value_json.payload.channel_utilization is defined %}}
         {{% (value_json.payload.channel_utilization | float) | round(2) %}}
-        {{% else %}}
+    {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_chutil') %}}
-        {{% endif %}}
-    unit_of_measurement: "%"
+    {{% endif %}}
+  unit_of_measurement: "%"
 
 - name: "{node_short_name} AirUtilTX"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_airutiltx"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-        {{% if value_json.from == {node_id} and value_json.payload.air_util_tx is defined %}}
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_airutiltx"
+  state_topic: "{root_topic}/{gateway_id}"
+  state_class: measurement
+  value_template: >-
+    {{% if value_json.from == {node_id} and value_json.payload.air_util_tx is defined %}}
         {{% (value_json.payload.air_util_tx | float) | round(2) %}}
-        {{% else %}}
+    {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_airutiltx') %}}
-        {{% endif %}}
-    unit_of_measurement: "%"
+    {{% endif %}}
+  unit_of_measurement: "%"
 
 - name: "{node_short_name} Temperature"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_temperature"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-        {{% if value_json.from == {node_id} and value_json.payload.temperature is defined %}}
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_temperature"
+  state_topic: "{root_topic}/{gateway_id}"
+  state_class: measurement
+  value_template: >-
+    {{% if value_json.from == {node_id} and value_json.payload.temperature is defined %}}
         {{% (((value_json.payload.temperature | float) * 1.8) +32) | round(2) %}}
-        {{% else %}}
+    {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') %}}
-        {{% endif %}}
-    unit_of_measurement: "F"
-    # For Celsius use:    {{ (value_json.payload.temperature | float) | round(1) }}
-    # For Fahrenheit use: {{ (((value_json.payload.temperature | float) * 1.8) +32) | round(2) }}
+    {{% endif %}}
+  unit_of_measurement: "F"
+# For Celsius use:    {{ (value_json.payload.temperature | float) | round(1) }}
+# For Fahrenheit use: {{ (((value_json.payload.temperature | float) * 1.8) +32) | round(2) }}
 
 - name: "{node_short_name} Humidity"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_humidity"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-        {{% if value_json.from == {node_id} and value_json.payload.relative_humidity is defined %}}
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_humidity"
+  state_topic: "{root_topic}/{gateway_id}"
+  state_class: measurement
+  value_template: >-
+    {{% if value_json.from == {node_id} and value_json.payload.relative_humidity is defined %}}
         {{% (value_json.payload.relative_humidity | float) | round(2) %}}
-        {{% else %}}
+    {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_humidity') %}}
-        {{% endif %}}
-    unit_of_measurement: "%"
+    {{% endif %}}
+  unit_of_measurement: "%"
 
 - name: "{node_short_name} Pressure"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_pressure"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-        {{% if value_json.from == {node_id} and value_json.payload.barometric_pressure is defined %}}
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_pressure"
+  state_topic: "{root_topic}/{gateway_id}"
+  state_class: measurement
+  value_template: >-
+    {{% if value_json.from == {node_id} and value_json.payload.barometric_pressure is defined %}}
         {{% (value_json.payload.barometric_pressure | float) | round(2) %}}
-        {{% else %}}
+    {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_pressure') %}}
-        {{% endif %}}
-    unit_of_measurement: "hPa"
+    {{% endif %}}
+unit_of_measurement: "hPa"
 
 - name: "{node_short_name} Gas Resistance"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_gas_resistance"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-        {{% if value_json.from == {node_id} and value_json.payload.gas_resistance is defined %}}
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_gas_resistance"
+  state_topic: "{root_topic}/{gateway_id}"
+  state_class: measurement
+  value_template: >-
+    {{% if value_json.from == {node_id} and value_json.payload.gas_resistance is defined %}}
         {{% (value_json.payload.gas_resistance | float) | round(2) %}}
-        {{% else %}}
+    {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_gas_resistance') %}}
-        {{% endif %}}
-    unit_of_measurement: "MOhms"
+    {{% endif %}}
+  unit_of_measurement: "MOhms"
 
 - name: "{node_short_name} Messages"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_messages"
-    state_topic: "{root_topic}/{gateway_id}"
-    value_template: >-
-        {{% if value_json.from == {node_id} and value_json.payload.text is defined %}}
+  unique_id: "{node_short_name.lower().replace(" ", "_")}_messages"
+  state_topic: "{root_topic}/{gateway_id}"
+  value_template: >-
+    {{% if value_json.from == {node_id} and value_json.payload.text is defined %}}
         {{% value_json.payload.text %}}
-        {{% else %}}
+    {{% else %}}
         {{% states('sensor.{node_short_name.lower().replace(" ", "_")}_messages') %}}
-        {{% endif %}}
+    {{% endif %}}
         '''
 
     with open("meshtastic_entities.txt", "a") as file:
