@@ -71,6 +71,9 @@ for node in node_info:
     {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage') }}}}
     {{% endif %}}
   unit_of_measurement: "Volts"
+  icon: "mdi:lightning-bolt"
+  device:
+    identifiers: "meshtastic_{node_long_name}"
 
 - name: "{node_short_name} Battery Percent"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_percent"
@@ -83,6 +86,9 @@ for node in node_info:
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_percent') }}}}
     {{% endif %}}
   unit_of_measurement: "%"
+  icon: "mdi:battery-high"
+  device:
+    identifiers: "meshtastic_{node_long_name}"
 
 - name: "{node_short_name} ChUtil"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_chutil"
@@ -95,6 +101,9 @@ for node in node_info:
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_chutil') }}}}
     {{% endif %}}
   unit_of_measurement: "%"
+  icon: "mdi:signal-distance-variant"
+  device:
+    identifiers: "meshtastic_{node_long_name}"
 
 - name: "{node_short_name} AirUtilTX"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_airutiltx"
@@ -107,6 +116,9 @@ for node in node_info:
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_airutiltx') }}}}
     {{% endif %}}
   unit_of_measurement: "%"
+  icon: "mdi:percent-box-outline"
+  device:
+    identifiers: "meshtastic_{node_long_name}"
 
 - name: "{node_short_name} Temperature"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_temperature"
@@ -119,8 +131,9 @@ for node in node_info:
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
     {{% endif %}}
   unit_of_measurement: "F"
-# For Celsius use:    {{ (value_json.payload.temperature | float) | round(1) }}
-# For Fahrenheit use: {{ (((value_json.payload.temperature | float) * 1.8) +32) | round(2) }}
+  icon: "mdi:temperature-fahrenheit"
+  device:
+    identifiers: "meshtastic_{node_long_name}"
 
 - name: "{node_short_name} Humidity"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_humidity"
@@ -133,6 +146,9 @@ for node in node_info:
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_humidity') }}}}
     {{% endif %}}
   unit_of_measurement: "%"
+  icon: "mdi:water-percent"
+  device:
+    identifiers: "meshtastic_{node_long_name}"
 
 - name: "{node_short_name} Pressure"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_pressure"
@@ -145,6 +161,9 @@ for node in node_info:
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_pressure') }}}}
     {{% endif %}}
   unit_of_measurement: "hPa"
+  icon: "mdi:chevron-double-down"
+  device:
+    identifiers: "meshtastic_{node_long_name}"
 
 - name: "{node_short_name} Gas Resistance"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_gas_resistance"
@@ -157,6 +176,9 @@ for node in node_info:
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_gas_resistance') }}}}
     {{% endif %}}
   unit_of_measurement: "MOhms"
+  icon: "mdi:dots-hexagon"
+  device:
+    identifiers: "meshtastic_{node_long_name}"
 
 - name: "{node_short_name} Messages"
   unique_id: "{node_short_name.lower().replace(" ", "_")}_messages"
@@ -167,6 +189,9 @@ for node in node_info:
     {{% else %}}
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_messages') }}}}
     {{% endif %}}
+  device:
+    identifiers: "meshtastic_{node_long_name}"
+  icon: "mdi:chat"
         '''
 
     with open("meshtastic_entities.txt", "a") as file:
