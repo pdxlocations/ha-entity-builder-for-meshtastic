@@ -44,7 +44,7 @@ if iface.nodes:
         node_info.append(sample_node)
 
 # initialize the file with the 'sensor' header
-with open("output.txt", "w") as file:
+with open("meshtastic_entities.txt", "w") as file:
     file.write('sensor:\n')  
 
 for node in node_info:
