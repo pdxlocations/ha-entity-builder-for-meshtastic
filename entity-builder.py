@@ -131,7 +131,7 @@ for node in node_info:
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
     {{% endif %}}
   unit_of_measurement: "F"
-  icon: "mdi:temperature-fahrenheit"
+  icon: "mdi:sun-thermometer"
   device:
     identifiers: "meshtastic_{node_long_name}"
 
