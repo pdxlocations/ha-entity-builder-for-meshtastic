@@ -70,7 +70,7 @@ for node in node_info:
       {{% else %}}
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage') }}}}
       {{% endif %}}
-    unit_of_measurement: "Volts"
+    unit_of_measurement: "V"
     icon: "mdi:lightning-bolt"
     device:
       identifiers: "meshtastic_{node_id}"
