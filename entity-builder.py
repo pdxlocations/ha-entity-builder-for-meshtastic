@@ -18,7 +18,7 @@ if iface.nodes:
             "node_id": num,
             "long_name": node["user"]["longName"],
             "short_name": node["user"]["shortName"],
-            "mac_address": node["user"]["macaddr"],
+            # "mac_address": node["user"]["macaddr"],
             "hardware_model": node["user"]["hwModel"]
         }
 
@@ -53,7 +53,7 @@ for node in node_info:
     node_short_name = f"{node['short_name']}"
     node_long_name = f"{node['long_name']}"
     node_id = f"{node['node_id']}"
-    mac_address = f"{node['mac_address']}"
+    # mac_address = f"{node['mac_address']}"
     hardware_model = f"{node['hardware_model']}"
 
     config = f'''
