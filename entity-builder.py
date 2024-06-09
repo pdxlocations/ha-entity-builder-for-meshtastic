@@ -13,8 +13,7 @@ for node_id, node in iface.nodes.items():
     print (node)
     node_short_name = f"{node['user']['shortName']}"
     node_long_name = f"{node['user']['longName']}"
-    node_id = f"{node['user']['id']}"
-    # mac_address = f"{node['user']['macaddr']}"
+    node_id = f"{node['num']}"
     hardware_model = f"{node['user']['hwModel']}"
 
     config = f'''
