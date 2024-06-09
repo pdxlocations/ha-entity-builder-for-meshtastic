@@ -5,56 +5,17 @@ iface = meshtastic.serial_interface.SerialInterface()
 gateway_id = "!6d00f4ac"
 root_topic = "msh/2/json/LongFast"
 
-# Ensure that nodes are available
-if iface.nodes:
-    node_info = []
-
-    # Iterate through each node
-    for node_id, node in iface.nodes.items():
-        node_id_stripped = node_id.replace("!", "")
-        num = int(node_id_stripped, 16)
-        num = str(num)
-        sample_node = {
-            "node_id": num,
-            "long_name": node["user"]["longName"],
-            "short_name": node["user"]["shortName"],
-            "mac_address": node["user"]["macaddr"],
-            "hardware_model": node["user"]["hwModel"]
-        }
-
-        # Check if node has device metrics
-        if "deviceMetrics" in node:
-            device_metrics = node["deviceMetrics"]
-            keys_to_check = ["batteryLevel", "voltage", "channelUtilization", "airUtilTx"]
-            for key in keys_to_check:
-                if key in device_metrics:
-                    sample_node[key.lower()] = device_metrics[key]
-
-        # Check if node has environmental metrics
-        if "decoded" in node and "telemetry" in node["decoded"]:
-            telemetry = node["decoded"]["telemetry"]
-            keys_to_check = ['temperature', 'relativeHumidity', 'barometricPressure', 'gasResistance', 'current']
-            if "environmentMetrics" in telemetry:
-                environment_metrics = telemetry["environmentMetrics"]
-                for key in keys_to_check:
-                    if key in environment_metrics:
-                        sample_node[key] = environment_metrics[key]
-
-        # Add the node to the list
-        node_info.append(sample_node)
-
 # initialize the file with the 'sensor' header
 with open("mqtt.yaml", "w") as file:
     file.write('sensor:\n')  
 
-for node in node_info:
-
+for node_id, node in iface.nodes.items():
     print (node)
-    node_short_name = f"{node['short_name']}"
-    node_long_name = f"{node['long_name']}"
-    node_id = f"{node['node_id']}"
-    mac_address = f"{node['mac_address']}"
-    hardware_model = f"{node['hardware_model']}"
+    node_short_name = f"{node['user']['shortName']}"
+    node_long_name = f"{node['user']['longName']}"
+    node_id = f"{node['user']['id']}"
+    # mac_address = f"{node['user']['macaddr']}"
+    hardware_model = f"{node['user']['hwModel']}"
 
     config = f'''
   # {node_long_name}
