@@ -4,6 +4,8 @@ iface = meshtastic.serial_interface.SerialInterface()
 
 gateway_id = "!6d00f4ac"
 root_topic = "msh/2/json/LongFast"
+node_list = ['!ced58391', '!215f357f']
+use_node_list = True # only use nodes from the node list.  If False, create for all nodes in db.
 
 # initialize the file with the 'sensor' header
 with open("mqtt.yaml", "w") as file:
@@ -14,9 +16,9 @@ for node_num, node in iface.nodes.items():
 
     node_short_name = f"{node['user']['shortName']}"
     node_long_name = f"{node['user']['longName']}"
+    node_id = f"{node['user']['id']}"
     node_num = f"{node['num']}"
     hardware_model = f"{node['user']['hwModel']}"
-
 
     config = f'''
   # {node_long_name}
@@ -245,8 +247,14 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
     icon: "mdi:chat"
         '''
-
-    with open("mqtt.yaml", "a") as file:
-        file.write(config + '\n')
+    if use_node_list:
+      if node_id in node_list:
+        with open("mqtt.yaml", "a") as file:
+            file.write(config + '\n')
+      
+    else:
+        with open("mqtt.yaml", "a") as file:
+            file.write(config + '\n')
+    
 
 iface.close()
