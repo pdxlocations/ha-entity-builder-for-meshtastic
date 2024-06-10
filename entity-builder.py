@@ -11,10 +11,12 @@ with open("mqtt.yaml", "w") as file:
 
 for node_num, node in iface.nodes.items():
     print (node)
+
     node_short_name = f"{node['user']['shortName']}"
     node_long_name = f"{node['user']['longName']}"
     node_num = f"{node['num']}"
     hardware_model = f"{node['user']['hwModel']}"
+
 
     config = f'''
   # {node_long_name}
