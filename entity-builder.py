@@ -1,6 +1,11 @@
+# For connection over USB Serial
 import meshtastic.serial_interface
-
 iface = meshtastic.serial_interface.SerialInterface()
+
+# For connection over TCP
+# import meshtastic.tcp_interface
+# interface = meshtastic.tcp_interface.TCPInterface(hostname='192.168.1.42', noProto=False)
+
 
 gateway_id = "!6d00f4ac"
 root_topic = "msh/2/json/LongFast"
