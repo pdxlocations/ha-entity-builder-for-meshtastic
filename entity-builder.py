@@ -46,6 +46,7 @@ for node_num, node in iface.nodes.items():
       name: "Meshtastic {node_id}"
       identifiers:
         - "meshtastic_{node_num}"
+        
   - name: "{node_short_name} Battery Voltage"
     unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage"
     state_topic: "{root_topic}/{gateway_id}"
