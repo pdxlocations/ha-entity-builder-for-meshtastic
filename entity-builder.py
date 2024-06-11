@@ -30,6 +30,22 @@ for node_num, node in iface.nodes.items():
     hardware_model = f"{node['user']['hwModel']}"
 
     config = f'''
+  - name: "{node_short_name} Last Heard"
+    unique_id: "{node_short_name.lower().replace(" ", "_")}_last_heard"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: timestamp
+    value_template: >-
+      {{% if value_json.from == {node_num} and
+            value_json.timestamp is defined %}}
+        {{{{ as_datetime(value_json.timestamp) }}}}
+      {{% else %}}
+        {{{{ this.state }}}}
+      {{% endif %}}
+    device:
+      name: "Meshtastic {node_id}"
+      identifiers:
+        - "meshtastic_{node_num}"
   - name: "{node_short_name} Battery Voltage"
     unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage"
     state_topic: "{root_topic}/{gateway_id}"
@@ -57,6 +73,7 @@ for node_num, node in iface.nodes.items():
       {{% else %}}
           {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_percent') }}}}
       {{% endif %}}
+    device_class: battery
     unit_of_measurement: "%"
     icon: "mdi:battery-high"
     device:
