@@ -73,6 +73,7 @@ for node_num, node in iface.nodes.items():
       {{% else %}}
           {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_percent') }}}}
       {{% endif %}}
+    device_class: battery
     unit_of_measurement: "%"
     icon: "mdi:battery-high"
     device:
