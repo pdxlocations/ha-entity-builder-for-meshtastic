@@ -85,6 +85,21 @@ for node_num, node in iface.nodes.items():
     device:
       identifiers: "meshtastic_{node_num}"
 
+  - name: "{node_short_name} Uptime"
+    unique_id: "{node_short_name.lower().replace(" ", "_")}_uptime"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: duration
+    value_template: >-
+      {{% if value_json.from == {node_num} and value_json.payload.uptime_seconds is defined %}}
+          {{{{ value_json.payload.uptime_seconds | int }}}}
+      {{% else %}}
+          {{{{ this.state }}}}
+      {{% endif %}}
+    unit_of_measurement: "s"
+    device:
+      identifiers: "meshtastic_{node_num}"
+
   - name: "{node_short_name} ChUtil"
     unique_id: "{node_short_name.lower().replace(" ", "_")}_chutil"
     state_topic: "{root_topic}/{gateway_id}"
