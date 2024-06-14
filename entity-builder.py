@@ -64,7 +64,7 @@ for node_num, node in iface.nodes.items():
       {{% else %}}
           {{{{ this.state }}}}
       {{% endif %}}
-    icon: "mdi:debug-step-over"
+    icon: "mdi:rabbit"
     device:
       identifiers: "meshtastic_{node_num}"
         
