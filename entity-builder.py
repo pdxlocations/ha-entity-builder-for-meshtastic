@@ -50,6 +50,21 @@ for node_num, node in iface.nodes.items():
     unit_of_measurement: "s"
     device:
       identifiers: "meshtastic_{node_num}"
+
+  - name: "{node_short_name} Hops Away"
+    unique_id: "{node_short_name.lower().replace(" ", "_")}_hops_away"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: distance
+    value_template: >-
+      {{% if value_json.from == {node_num} and value_json.hops_away is defined %}}
+          {{{{ value_json.hops_away | int }}}}
+      {{% else %}}
+          {{{{ this.state }}}}
+      {{% endif %}}
+    icon: "mdi:rabbit"
+    device:
+      identifiers: "meshtastic_{node_num}"
     
   - name: "{node_short_name} Last Heard"
     unique_id: "{node_short_name.lower().replace(" ", "_")}_last_heard"
@@ -91,7 +106,7 @@ for node_num, node in iface.nodes.items():
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.battery_level is defined %}}
-          {{{{ (value_json.payload.battery_level | float) | round(2) }}}}
+          {{{{ (value_json.payload.battery_level | float) | round(0) }}}}
       {{% else %}}
           {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_percent') }}}}
       {{% endif %}}
@@ -160,7 +175,7 @@ for node_num, node in iface.nodes.items():
       {{% else %}}
           {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
       {{% endif %}}
-    unit_of_measurement: "°C"
+    unit_of_measurement: "C"
     icon: "mdi:sun-thermometer"
     device:
       identifiers: "meshtastic_{node_num}"
