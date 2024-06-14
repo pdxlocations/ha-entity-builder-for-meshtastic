@@ -1,15 +1,15 @@
 # For connection over USB Serial
-import meshtastic.serial_interface
-iface = meshtastic.serial_interface.SerialInterface()
+# import meshtastic.serial_interface
+# iface = meshtastic.serial_interface.SerialInterface()
 
-# For connection over TCP
-# import meshtastic.tcp_interface
-# interface = meshtastic.tcp_interface.TCPInterface(hostname='192.168.1.42', noProto=False)
+import meshtastic.tcp_interface
+
+iface = meshtastic.tcp_interface.TCPInterface('192.168.0.105')
 
 
-gateway_id = "!6d00f4ac"
-root_topic = "msh/2/json/LongFast"
-node_list = ['!ced58391', '!215f357f']
+gateway_id = "!75f12a9c"
+root_topic = "msh/2/json/+"
+node_list = ['!aead291f', '!7d631f7e','!c83bc1db', '!75f12a9c', '!ecf6e41f', '!336c1b97', '!da56ebd4', '!892df5cc', '!24f7a0cf', '!0aea7012', '!c380980b', '!e0727de3', '!72392004']
 use_node_list = True # only use nodes from the node list.  If False, create for all nodes in db.
 
 include_messages = True
@@ -35,6 +35,22 @@ for node_num, node in iface.nodes.items():
     hardware_model = f"{node['user']['hwModel']}"
 
     config = f'''
+    
+  - name: "{node_short_name} Uptime"
+    unique_id: "{node_short_name.lower().replace(" ", "_")}_uptime"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: duration
+    value_template: >-
+      {{% if value_json.from == {node_num} and value_json.payload.uptime_seconds is defined %}}
+          {{{{ value_json.payload.uptime_seconds | int }}}}
+      {{% else %}}
+          {{{{ this.state }}}}
+      {{% endif %}}
+    unit_of_measurement: "s"
+    device:
+      identifiers: "meshtastic_{node_num}"
+    
   - name: "{node_short_name} Last Heard"
     unique_id: "{node_short_name.lower().replace(" ", "_")}_last_heard"
     state_topic: "{root_topic}/{gateway_id}"
@@ -48,7 +64,7 @@ for node_num, node in iface.nodes.items():
         {{{{ this.state }}}}
       {{% endif %}}
     device:
-      name: "Meshtastic {node_id}"
+      name: "{node_long_name}"
       identifiers:
         - "meshtastic_{node_num}"
         
@@ -140,11 +156,11 @@ for node_num, node in iface.nodes.items():
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.temperature is defined %}}
-          {{{{ (((value_json.payload.temperature | float) * 1.8) +32) | round(2) }}}}
+          {{{{ (value_json.payload.temperature | float) | round(2) }}}}
       {{% else %}}
           {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
       {{% endif %}}
-    unit_of_measurement: "F"
+    unit_of_measurement: "°C"
     icon: "mdi:sun-thermometer"
     device:
       identifiers: "meshtastic_{node_num}"
