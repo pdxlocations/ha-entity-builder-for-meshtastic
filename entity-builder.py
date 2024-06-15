@@ -22,10 +22,10 @@ include_power_ch2 = False
 include_power_ch3 = False
 
 # initialize the file with the 'sensor' header
-with open("mqtt.yaml", "w") as file:
+with open("mqtt.yaml", "w", encoding="utf-8") as file:
     file.write('sensor:\n')  
 # initialize the file as empty so we have something to append to
-with open("automations.yaml", "w") as file:
+with open("automations.yaml", "w", encoding="utf-8") as file:
     file.write('')
 
 for node_num, node in iface.nodes.items():
@@ -349,9 +349,9 @@ for node_num, node in iface.nodes.items():
 
 
     if node_id in node_list or (not use_node_list):
-        with open("mqtt.yaml", "a") as file:
+        with open("mqtt.yaml", "a", encoding="utf-8") as file:
             file.write(config + '\n')
-        with open("automations.yaml", "a") as file:
+        with open("automations.yaml", "a", encoding="utf-8") as file:
             file.write(automation_config)
 
 iface.close()
