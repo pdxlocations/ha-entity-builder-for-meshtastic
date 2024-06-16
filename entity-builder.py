@@ -40,7 +40,7 @@ mqtt.add_argument(
 # it would be nice to have this request settings if the gateway isn't the remote node
 mqtt.add_argument(
     "--root-topic",
-    help="The root topic to use in MQTT for the generated files. If not provided, will attempt to get the root path from the local node and use `msh/LongFast` as the channel. Wildcard: `+`. Example: to include all channels with the root topic `msh/`, use `msh/2/json/+`.",
+    help="The root topic to use in MQTT for the generated files. If not provided, will attempt to get the root path from the local node and use `LongFast` as the channel. Wildcard: `+`. Example: to include all channels with the root topic `msh/`, use `msh/2/json/+`.",
     default=None,
 )
 
