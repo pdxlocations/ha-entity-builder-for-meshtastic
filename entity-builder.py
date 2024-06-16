@@ -4,12 +4,6 @@ from meshtastic.ble_interface import BLEInterface
 import argparse
 import sys
 
-from meshtastic.serial_interface import SerialInterface
-from meshtastic.tcp_interface import TCPInterface
-from meshtastic.ble_interface import BLEInterface
-import argparse
-import sys
-
 ### Add arguments to parse
 
 parser = argparse.ArgumentParser(
