@@ -1,25 +1,145 @@
-# For connection over USB Serial
-import meshtastic.serial_interface
-iface = meshtastic.serial_interface.SerialInterface()
+from meshtastic.serial_interface import SerialInterface
+from meshtastic.tcp_interface import TCPInterface
+from meshtastic.ble_interface import BLEInterface
+import argparse
+import sys
 
-# For connection over TCP
-# import meshtastic.tcp_interface
-# interface = meshtastic.tcp_interface.TCPInterface(hostname='192.168.1.42', noProto=False)
+### Add arguments to parse
+
+parser = argparse.ArgumentParser(
+        add_help=False,
+        epilog="If no connection arguments are specified, we attempt a serial connection and then a TCP connection to localhost.")
+
+helpGroup = parser.add_argument_group("Help")
+helpGroup.add_argument("-h", "--help", action="help", help="show this help message and exit")
+
+connOuter = parser.add_argument_group('Connection', 'Optional arguments to specify a device to connect to and how.')
+conn = connOuter.add_mutually_exclusive_group()
+conn.add_argument(
+    "--port",
+    help="The port to connect to via serial, e.g. `/dev/ttyUSB0`",
+    default=None,
+)
+conn.add_argument(
+    "--host",
+    help="The hostname or IP address to connect to using TCP", 
+    default=None,
+)
+conn.add_argument(
+    "--ble",
+    help="The BLE device address or name to connect to",
+    default=None,
+)
+
+mqtt = parser.add_argument_group("MQTT", "Arguments to specify the gateway node and root MQTT topics")
+mqtt.add_argument(
+    "--gateway",
+    help="The ID of the MQTT gateway node, e.g. !12345678. If not provided, will use the ID of the locally connected node.",
+    default=None,
+)
+# it would be nice to have this request settings if the gateway isn't the remote node
+mqtt.add_argument(
+    "--root-topic",
+    help="The root topic to use in MQTT for the generated files. If not provided, will attempt to get the root path from the local node and use LongFast as the channel.",
+    default=None,
+)
+
+includes = parser.add_argument_group("Includes", "Arguments to specify what sensors to generate for each node.")
+includes.add_argument(
+    "--no-messages",
+    help="Don't include a sensor for messages from the node.",
+    action='store_true',
+)
+includes.add_argument(
+    "--no-temperature",
+    help="Don't include a temperature sensor.",
+    action='store_true',
+)
+includes.add_argument(
+    "--no-humidity",
+    help="Don't include a humidity sensor.",
+    action='store_true',
+)
+includes.add_argument(
+    "--no-pressure",
+    help="Don't include a pressure sensor.",
+    action='store_true',
+)
+
+includes.add_argument(
+    "--gas-resistance",
+    help="Include a gas resistance sensor.",
+    action='store_true',
+)
+includes.add_argument(
+    "--power-ch1",
+    help="Include a power & voltage channel 1 sensor.",
+    action='store_true',
+)
+includes.add_argument(
+    "--power-ch2",
+    help="Include a power & voltage channel 2 sensor.",
+    action='store_true',
+)
+includes.add_argument(
+    "--power-ch3",
+    help="Include a power & voltage channel 3 sensor.",
+    action='store_true',
+)
+
+parser.add_argument(
+    "--nodes",
+    help="Only generate sensors for these nodes. If not provided, all nodes in the NodeDB will be included.",
+    nargs='*',
+    action='store',
+)
+
+args = parser.parse_args()
+
+### Create an interface
+if args.ble:
+    iface = BLEInterface(args.ble)
+elif args.host:
+    iface = TCPInterface(args.host)
+else:
+    try:
+        iface = SerialInterface(args.port)
+    except PermissionError as ex:
+        print("You probably need to add yourself to the `dialout` group to use a serial connection.")
+    if iface.devPath is None:
+        iface = TCPInterface("localhost")
+
+if args.gateway:
+    gateway_id = args.gateway
+else:
+    gateway_id = f"!{iface.localNode.nodeNum:08x}"
 
 
-gateway_id = "!6d00f4ac"
-root_topic = "msh/2/json/LongFast"
-node_list = ['!ced58391', '!215f357f']
-use_node_list = True # only use nodes from the node list.  If False, create for all nodes in db.
+if args.root_topic:
+    root_topic = args.root_topic
+else:
+    mqttRoot = iface.localNode.moduleConfig.mqtt.root
+    if mqttRoot != "":
+        root_topic = mqttRoot + '/2/json/LongFast'
 
-include_messages = True
-include_temperature = True
-include_humidity = True
-include_pressure = True
-include_gas_resistance = False
-include_power_ch1 = False
-include_power_ch2 = False
-include_power_ch3 = False
+print(f"Using a gateway ID of {gateway_id} and a root topic of {root_topic}")
+
+node_list = []
+use_node_list = False # only use nodes from the node list.  If False, create for all nodes in db.
+if args.nodes and len(args.nodes) > 0:
+    use_node_list = True
+    node_list = args.nodes
+    print(f"Using node list: {node_list}")
+
+
+include_messages = not args.no_messages
+include_temperature = not args.no_temperature
+include_humidity = not args.no_humidity
+include_pressure = not args.no_pressure
+include_gas_resistance = args.gas_resistance
+include_power_ch1 = args.power_ch1
+include_power_ch2 = args.power_ch2
+include_power_ch3 = args.power_ch3
 
 # initialize the file with the 'sensor' header
 with open("mqtt.yaml", "w", encoding="utf-8") as file:
@@ -29,8 +149,6 @@ with open("automations.yaml", "w", encoding="utf-8") as file:
     file.write('')
 
 for node_num, node in iface.nodes.items():
-    print (node)
-
     node_short_name = f"{node['user']['shortName']}"
     node_long_name = f"{node['user']['longName']}"
     node_id = f"{node['user']['id']}"
