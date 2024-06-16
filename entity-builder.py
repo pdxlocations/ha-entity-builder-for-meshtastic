@@ -79,6 +79,22 @@ for node_num, node in iface.nodes.items():
       name: "Meshtastic {node_id}"
       identifiers:
         - "meshtastic_{node_num}"
+
+
+  - name: "{node_short_name} Hops Away"
+    unique_id: "{node_short_name.lower().replace(" ", "_")}_hops_away"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: distance
+    value_template: >-
+      {{% if value_json.from == {node_num} and value_json.hops_away is defined %}}
+          {{{{ value_json.hops_away | int }}}}
+      {{% else %}}
+          {{{{ this.state }}}}
+      {{% endif %}}
+    icon: "mdi:rabbit"
+    device:
+      identifiers: "meshtastic_{node_num}"
         
   - name: "{node_short_name} Battery Voltage"
     unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage"
