@@ -182,7 +182,7 @@ for node_num, node in iface.nodes.items():
 
     config = f'''
   - name: "{node_short_name} Last Heard"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_last_heard"
+    unique_id: "{int(node_num):08x}_last_heard"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     device_class: timestamp
@@ -200,7 +200,7 @@ for node_num, node in iface.nodes.items():
 
 
   - name: "{node_short_name} Hops Away"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_hops_away"
+    unique_id: "{int(node_num):08x}_hops_away"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     device_class: distance
@@ -215,7 +215,7 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
         
   - name: "{node_short_name} Battery Voltage"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage"
+    unique_id: "{int(node_num):08x}_battery_voltage"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -232,7 +232,7 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
 
   - name: "{node_short_name} Battery Percent"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_percent"
+    unique_id: "{int(node_num):08x}_battery_percent"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -248,7 +248,7 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
 
   - name: "{node_short_name} Uptime"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_uptime"
+    unique_id: "{int(node_num):08x}_uptime"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     device_class: duration
@@ -263,7 +263,7 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
 
   - name: "{node_short_name} ChUtil"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_chutil"
+    unique_id: "{int(node_num):08x}_chutil"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -278,7 +278,7 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
 
   - name: "{node_short_name} AirUtilTX"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_airutiltx"
+    unique_id: "{int(node_num):08x}_airutiltx"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -296,7 +296,7 @@ for node_num, node in iface.nodes.items():
     if include_messages:
       config += f'''
   - name: "{node_short_name} Messages"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_messages"
+    unique_id: "{int(node_num):08x}_messages"
     state_topic: "{root_topic}/{gateway_id}"
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.text is defined %}}
@@ -312,7 +312,7 @@ for node_num, node in iface.nodes.items():
     if include_temperature:
       config += f'''
   - name: "{node_short_name} Temperature"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_temperature"
+    unique_id: "{int(node_num):08x}_temperature"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -330,7 +330,7 @@ for node_num, node in iface.nodes.items():
     if include_humidity:
       config += f'''
   - name: "{node_short_name} Humidity"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_humidity"
+    unique_id: "{int(node_num):08x}_humidity"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -348,7 +348,7 @@ for node_num, node in iface.nodes.items():
     if include_pressure:
       config += f'''
   - name: "{node_short_name} Pressure"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_pressure"
+    unique_id: "{int(node_num):08x}_pressure"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -366,7 +366,7 @@ for node_num, node in iface.nodes.items():
     if include_gas_resistance:
       config += f'''
   - name: "{node_short_name} Gas Resistance"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_gas_resistance"
+    unique_id: "{int(node_num):08x}_gas_resistance"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -385,7 +385,7 @@ for node_num, node in iface.nodes.items():
       config += f'''
   # {node_long_name}
   - name: "{node_short_name} Battery Voltage Ch1"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage_ch1"
+    unique_id: "{int(node_num):08x}_battery_voltage_ch1"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -400,7 +400,7 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
 
   - name: "{node_short_name} Battery Current Ch1"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_current_ch1"
+    unique_id: "{int(node_num):08x}_battery_current_ch1"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -418,7 +418,7 @@ for node_num, node in iface.nodes.items():
     if include_power_ch2:
       config += f'''
   - name: "{node_short_name} Battery Voltage Ch2"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage_ch2"
+    unique_id: "{int(node_num):08x}_battery_voltage_ch2"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -433,7 +433,7 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
 
   - name: "{node_short_name} Battery Current Ch2"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_current_ch2"
+    unique_id: "{int(node_num):08x}_battery_current_ch2"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -451,7 +451,7 @@ for node_num, node in iface.nodes.items():
     if include_power_ch3:
       config += f'''
   - name: "{node_short_name} Battery Voltage Ch3"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_voltage_ch3"
+    unique_id: "{int(node_num):08x}_battery_voltage_ch3"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
@@ -466,7 +466,7 @@ for node_num, node in iface.nodes.items():
       identifiers: "meshtastic_{node_num}"
 
   - name: "{node_short_name} Battery Current Ch3"
-    unique_id: "{node_short_name.lower().replace(" ", "_")}_battery_current_ch3"
+    unique_id: "{int(node_num):08x}_battery_current_ch3"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
