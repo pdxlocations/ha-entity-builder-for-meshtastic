@@ -4,6 +4,12 @@ from meshtastic.ble_interface import BLEInterface
 import argparse
 import sys
 
+from meshtastic.serial_interface import SerialInterface
+from meshtastic.tcp_interface import TCPInterface
+from meshtastic.ble_interface import BLEInterface
+import argparse
+import sys
+
 ### Add arguments to parse
 
 parser = argparse.ArgumentParser(
@@ -11,23 +17,23 @@ parser = argparse.ArgumentParser(
         epilog="If no connection arguments are specified, we attempt a serial connection and then a TCP connection to localhost.")
 
 helpGroup = parser.add_argument_group("Help")
-helpGroup.add_argument("-h", "--help", action="help", help="show this help message and exit")
+helpGroup.add_argument("-h", "--help", action="help", help="Show this help message and exit.")
 
 connOuter = parser.add_argument_group('Connection', 'Optional arguments to specify a device to connect to and how.')
 conn = connOuter.add_mutually_exclusive_group()
 conn.add_argument(
     "--port",
-    help="The port to connect to via serial, e.g. `/dev/ttyUSB0`",
+    help="The port to connect to via serial, e.g. `/dev/ttyUSB0`.",
     default=None,
 )
 conn.add_argument(
     "--host",
-    help="The hostname or IP address to connect to using TCP", 
+    help="The hostname or IP address to connect to using TCP.", 
     default=None,
 )
 conn.add_argument(
     "--ble",
-    help="The BLE device address or name to connect to",
+    help="The BLE device MAC address or name to connect to.",
     default=None,
 )
 
@@ -40,7 +46,7 @@ mqtt.add_argument(
 # it would be nice to have this request settings if the gateway isn't the remote node
 mqtt.add_argument(
     "--root-topic",
-    help="The root topic to use in MQTT for the generated files. If not provided, will attempt to get the root path from the local node and use LongFast as the channel.",
+    help="The root topic to use in MQTT for the generated files. If not provided, will attempt to get the root path from the local node and use LongFast as the channel. Wildcard: `+` Example: to include all channels, use `msh/2/json/+`.",
     default=None,
 )
 
@@ -89,7 +95,7 @@ includes.add_argument(
 
 parser.add_argument(
     "--nodes",
-    help="Only generate sensors for these nodes. If not provided, all nodes in the NodeDB will be included.",
+    help="Only generate sensors for these nodes. If not provided, all nodes in the NodeDB will be included. Example: `\"!XXXXXXXX\", \"!YYYYYYYY\"`.",
     nargs='*',
     action='store',
 )
