@@ -22,8 +22,11 @@ include_power_ch2 = False
 include_power_ch3 = False
 
 # initialize the file with the 'sensor' header
-with open("mqtt.yaml", "w") as file:
+with open("mqtt.yaml", "w", encoding="utf-8") as file:
     file.write('sensor:\n')  
+# initialize the file as empty so we have something to append to
+with open("automations.yaml", "w", encoding="utf-8") as file:
+    file.write('')
 
 for node_num, node in iface.nodes.items():
     print (node)
@@ -33,6 +36,31 @@ for node_num, node in iface.nodes.items():
     node_id = f"{node['user']['id']}"
     node_num = f"{node['num']}"
     hardware_model = f"{node['user']['hwModel']}"
+
+    automation_config = f"""
+- id: 'update_location_{node_num}'
+  alias: update {node_id} location
+  trigger:
+  - platform: mqtt
+    topic: "{root_topic}/{gateway_id}"
+    payload: 'on'
+    value_template: >-
+        {{%- if value_json.from == {node_num} and
+               value_json.payload.latitude_i is defined and
+               value_json.payload.longitude_i is defined -%}}
+            on
+        {{%- endif -%}}
+  condition: []
+  action:
+  - service: device_tracker.see
+    metadata: {{}}
+    data:
+      dev_id: "{int(node_num):08x}"
+      gps:
+      - '{{{{ (trigger.payload | from_json).payload.latitude_i | int * 1e-7 }}}}'
+      - '{{{{ (trigger.payload | from_json).payload.longitude_i | int * 1e-7 }}}}'
+  mode: single
+    """
 
     config = f'''
   - name: "{node_short_name} Last Heard"
@@ -320,14 +348,10 @@ for node_num, node in iface.nodes.items():
     '''
 
 
-    if use_node_list:
-      if node_id in node_list:
-        with open("mqtt.yaml", "a") as file:
+    if node_id in node_list or (not use_node_list):
+        with open("mqtt.yaml", "a", encoding="utf-8") as file:
             file.write(config + '\n')
-      
-    else:
-        with open("mqtt.yaml", "a") as file:
-            file.write(config + '\n')
-    
+        with open("automations.yaml", "a", encoding="utf-8") as file:
+            file.write(automation_config)
 
 iface.close()
