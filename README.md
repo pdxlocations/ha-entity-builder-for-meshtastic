@@ -20,21 +20,25 @@ usage: entity-builder.py [-h] [--port PORT | --host HOST | --ble BLE]
                          [--gateway GATEWAY] [--root-topic ROOT_TOPIC]
                          [--no-messages] [--no-temperature] [--no-humidity]
                          [--no-pressure] [--gas-resistance] [--power-ch1]
-                         [--power-ch2] [--power-ch3] [--nodes [NODES ...]]
+                         [--power-ch2] [--power-ch3]
+                         [--nodes [NODES [NODES ...]]]
 
-options:
-  --nodes [NODES ...]   Only generate sensors for these nodes. If not
+optional arguments:
+  --nodes [NODES [NODES ...]]
+                        Only generate sensors for these nodes. If not
                         provided, all nodes in the NodeDB will be included.
+                        Example: `"!XXXXXXXX", "!YYYYYYYY"`.
 
 Help:
-  -h, --help            show this help message and exit
+  -h, --help            Show this help message and exit.
 
 Connection:
   Optional arguments to specify a device to connect to and how.
 
-  --port PORT           The port to connect to via serial, e.g. `/dev/ttyUSB0`
-  --host HOST           The hostname or IP address to connect to using TCP
-  --ble BLE             The BLE device address or name to connect to
+  --port PORT           The port to connect to via serial, e.g.
+                        `/dev/ttyUSB0`.
+  --host HOST           The hostname or IP address to connect to using TCP.
+  --ble BLE             The BLE device MAC address or name to connect to.
 
 MQTT:
   Arguments to specify the gateway node and root MQTT topics
@@ -45,7 +49,9 @@ MQTT:
   --root-topic ROOT_TOPIC
                         The root topic to use in MQTT for the generated files.
                         If not provided, will attempt to get the root path
-                        from the local node and use LongFast as the channel.
+                        from the local node and use `LongFast` as the channel.
+                        Wildcard: `+`. Example: to include all channels with
+                        the root topic `msh/`, use `msh/2/json/+`.
 
 Includes:
   Arguments to specify what sensors to generate for each node.
