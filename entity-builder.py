@@ -194,7 +194,7 @@ for node_num, node in iface.nodes.items():
         {{{{ this.state }}}}
       {{% endif %}}
     device:
-      name: "Meshtastic {node_id}"
+      name: "{node_long_name}"
       identifiers:
         - "meshtastic_{node_num}"
 
@@ -211,6 +211,36 @@ for node_num, node in iface.nodes.items():
           {{{{ this.state }}}}
       {{% endif %}}
     icon: "mdi:rabbit"
+    device:
+      identifiers: "meshtastic_{node_num}"
+
+  - name: "{node_short_name} SNR"
+    unique_id: "{int(node_num):08x}_snr"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: signal_strength
+    value_template: >-
+      {{% if value_json.from == {node_num} and value_json.snr is defined %}}
+          {{{{ value_json.snr}}}}
+      {{% else %}}
+          {{{{ this.state }}}}
+      {{% endif %}}
+    icon: "mdi:signal"
+    device:
+      identifiers: "meshtastic_{node_num}"
+
+  - name: "{node_short_name} RSSI"
+    unique_id: "{int(node_num):08x}_rssi"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: signal_strength
+    value_template: >-
+      {{% if value_json.from == {node_num} and value_json.rssi is defined %}}
+          {{{{ value_json.rssi | int}}}}
+      {{% else %}}
+          {{{{ this.state }}}}
+      {{% endif %}}
+    icon: "mdi:signal-variant"
     device:
       identifiers: "meshtastic_{node_num}"
         
@@ -321,7 +351,7 @@ for node_num, node in iface.nodes.items():
       {{% else %}}
           {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
       {{% endif %}}
-    unit_of_measurement: "F"
+    unit_of_measurement: "C"
     icon: "mdi:sun-thermometer"
     device:
       identifiers: "meshtastic_{node_num}"
