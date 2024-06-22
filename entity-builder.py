@@ -40,7 +40,7 @@ mqtt.add_argument(
 # it would be nice to have this request settings if the gateway isn't the remote node
 mqtt.add_argument(
     "--root-topic",
-    help="The root topic to use in MQTT for the generated files. If not provided, will attempt to get the root path from the local node and use `LongFast` as the channel. Wildcard: `+`. Example: to include all channels with the root topic `msh/`, use `msh/2/json/+`.",
+    help="The root topic to use in MQTT for the generated files. If not provided, will attempt to get the root path from the local node and use all channels. Wildcard: `+`. Example: to include all channels with the root topic `msh/`, use `msh/2/json/+`. To include just LongFast, use `msh/2/json/LongFast`",
     default=None,
 )
 
@@ -93,6 +93,11 @@ parser.add_argument(
     nargs='*',
     action='store',
 )
+parser.add_argument(
+    "--fahrenheit",
+    help="Use Fahrenheit instead of sane Celsius.",
+    action='store_true',
+)
 
 args = parser.parse_args()
 
@@ -120,7 +125,7 @@ if args.root_topic:
 else:
     mqttRoot = iface.localNode.moduleConfig.mqtt.root
     if mqttRoot != "":
-        root_topic = mqttRoot + '/2/json/LongFast'
+        root_topic = mqttRoot + '/2/json/+'
 
 print(f"Using a gateway ID of {gateway_id} and a root topic of {root_topic}")
 
@@ -131,6 +136,7 @@ if args.nodes and len(args.nodes) > 0:
     node_list = args.nodes
     print(f"Using node list: {node_list}")
 
+fahrenheit = args.fahrenheit
 
 include_messages = not args.no_messages
 include_temperature = not args.no_temperature
@@ -211,36 +217,6 @@ for node_num, node in iface.nodes.items():
           {{{{ this.state }}}}
       {{% endif %}}
     icon: "mdi:rabbit"
-    device:
-      identifiers: "meshtastic_{node_num}"
-
-  - name: "{node_short_name} SNR"
-    unique_id: "{int(node_num):08x}_snr"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    device_class: signal_strength
-    value_template: >-
-      {{% if value_json.from == {node_num} and value_json.snr is defined %}}
-          {{{{ value_json.snr}}}}
-      {{% else %}}
-          {{{{ this.state }}}}
-      {{% endif %}}
-    icon: "mdi:signal"
-    device:
-      identifiers: "meshtastic_{node_num}"
-
-  - name: "{node_short_name} RSSI"
-    unique_id: "{int(node_num):08x}_rssi"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    device_class: signal_strength
-    value_template: >-
-      {{% if value_json.from == {node_num} and value_json.rssi is defined %}}
-          {{{{ value_json.rssi | int}}}}
-      {{% else %}}
-          {{{{ this.state }}}}
-      {{% endif %}}
-    icon: "mdi:signal-variant"
     device:
       identifiers: "meshtastic_{node_num}"
         
@@ -340,6 +316,12 @@ for node_num, node in iface.nodes.items():
         '''
       
     if include_temperature:
+      if fahrenheit:
+         temp_mod = "* 1.8) +32"
+         temp_unit = "F"
+      else:
+         temp_mod = ")"
+         temp_unit = "C"
       config += f'''
   - name: "{node_short_name} Temperature"
     unique_id: "{int(node_num):08x}_temperature"
@@ -347,11 +329,11 @@ for node_num, node in iface.nodes.items():
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.temperature is defined %}}
-          {{{{ (((value_json.payload.temperature | float) * 1.8) +32) | round(2) }}}}
+          {{{{ (((value_json.payload.temperature | float) {temp_mod}) | round(2) }}}}
       {{% else %}}
           {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
       {{% endif %}}
-    unit_of_measurement: "C"
+    unit_of_measurement: "{temp_unit}"
     icon: "mdi:sun-thermometer"
     device:
       identifiers: "meshtastic_{node_num}"
