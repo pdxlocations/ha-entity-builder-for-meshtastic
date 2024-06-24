@@ -421,7 +421,7 @@ for node_num, node in iface.nodes.items():
       {{% else %}}
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_current_ch1') }}}}
       {{% endif %}}
-    unit_of_measurement: "A"
+    unit_of_measurement: "mA"
     icon: "mdi:waves"
     device:
       identifiers: "meshtastic_{node_num}"
@@ -454,7 +454,7 @@ for node_num, node in iface.nodes.items():
       {{% else %}}
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_current_ch2') }}}}
       {{% endif %}}
-    unit_of_measurement: "A"
+    unit_of_measurement: "mA"
     icon: "mdi:waves"
     device:
       identifiers: "meshtastic_{node_num}"
@@ -487,7 +487,7 @@ for node_num, node in iface.nodes.items():
       {{% else %}}
         {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_current_ch3') }}}}
       {{% endif %}}
-    unit_of_measurement: "A"
+    unit_of_measurement: "mA"
     icon: "mdi:waves"
     device:
       identifiers: "meshtastic_{node_num}"
