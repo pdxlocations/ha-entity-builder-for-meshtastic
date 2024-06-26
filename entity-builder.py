@@ -204,6 +204,35 @@ for node_num, node in iface.nodes.items():
       identifiers:
         - "meshtastic_{node_num}"
 
+  - name: "{node_short_name} SNR"
+    unique_id: "{int(node_num):08x}_snr"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: signal_strength
+    value_template: >-
+      {{% if value_json.from == {node_num} and value_json.snr is defined %}}
+          {{{{ value_json.snr}}}}
+      {{% else %}}
+          {{{{ this.state }}}}
+      {{% endif %}}
+    icon: "mdi:signal"
+    device:
+      identifiers: "meshtastic_{node_num}"
+      
+  - name: "{node_short_name} RSSI"
+    unique_id: "{int(node_num):08x}_rssi"
+    state_topic: "{root_topic}/{gateway_id}"
+    state_class: measurement
+    device_class: signal_strength
+    value_template: >-
+      {{% if value_json.from == {node_num} and value_json.rssi is defined %}}
+          {{{{ value_json.rssi | int}}}}
+      {{% else %}}
+          {{{{ this.state }}}}
+      {{% endif %}}
+    icon: "mdi:signal-variant"
+    device:
+      identifiers: "meshtastic_{node_num}"
 
   - name: "{node_short_name} Hops Away"
     unique_id: "{int(node_num):08x}_hops_away"
