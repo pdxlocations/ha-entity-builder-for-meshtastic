@@ -87,12 +87,19 @@ includes.add_argument(
     action='store_true',
 )
 
+includes.add_argument(
+   "--use-celcius",
+   help="Show Celcius instead of Fahrenheit",
+   action='store_true'
+)
+
 parser.add_argument(
     "--nodes",
     help="Only generate sensors for these nodes. If not provided, all nodes in the NodeDB will be included. Example: `\"!XXXXXXXX\", \"!YYYYYYYY\"`.",
     nargs='*',
     action='store',
 )
+
 
 args = parser.parse_args()
 
@@ -140,6 +147,7 @@ include_gas_resistance = args.gas_resistance
 include_power_ch1 = args.power_ch1
 include_power_ch2 = args.power_ch2
 include_power_ch3 = args.power_ch3
+use_celcius = args.use_celcius
 
 # initialize the file with the 'sensor' header
 with open("mqtt.yaml", "w", encoding="utf-8") as file:
@@ -310,22 +318,40 @@ for node_num, node in iface.nodes.items():
         '''
       
     if include_temperature:
-      config += f'''
-  - name: "{node_short_name} Temperature"
-    unique_id: "{int(node_num):08x}_temperature"
-    state_topic: "{root_topic}/{gateway_id}"
-    state_class: measurement
-    value_template: >-
-      {{% if value_json.from == {node_num} and value_json.payload.temperature is defined %}}
-          {{{{ (((value_json.payload.temperature | float) * 1.8) +32) | round(2) }}}}
-      {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
-      {{% endif %}}
-    unit_of_measurement: "F"
-    icon: "mdi:sun-thermometer"
-    device:
-      identifiers: "meshtastic_{node_num}"
-    '''
+        if use_celcius:
+            config += f'''
+            - name: "{node_short_name} Temperature"
+              unique_id: "{int(node_num):08x}_temperature"
+              state_topic: "{root_topic}/{gateway_id}"
+              state_class: measurement
+              value_template: >-
+                {{% if value_json.from == {node_num} and value_json.payload.temperature is defined %}}
+                    {{{{ value_json.payload.temperature | float | round(2) }}}}
+                {{% else %}}
+                    {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
+                {{% endif %}}
+              unit_of_measurement: "°C"
+              icon: "mdi:sun-thermometer"
+              device:
+                identifiers: "meshtastic_{node_num}"
+              '''
+        else:
+          config += f'''
+        - name: "{node_short_name} Temperature"
+          unique_id: "{int(node_num):08x}_temperature"
+          state_topic: "{root_topic}/{gateway_id}"
+          state_class: measurement
+          value_template: >-
+            {{% if value_json.from == {node_num} and value_json.payload.temperature is defined %}}
+                {{{{ (((value_json.payload.temperature | float) * 1.8) +32) | round(2) }}}} 
+            {{% else %}}
+                {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
+            {{% endif %}}
+          unit_of_measurement: "F"
+          icon: "mdi:sun-thermometer"
+          device:
+            identifiers: "meshtastic_{node_num}"
+          '''
       
     if include_humidity:
       config += f'''
