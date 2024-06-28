@@ -88,8 +88,8 @@ includes.add_argument(
 )
 
 includes.add_argument(
-   "--use-celcius",
-   help="Show Celcius instead of Fahrenheit",
+   "--use-celsius",
+   help="Show celsius instead of Fahrenheit",
    action='store_true'
 )
 
