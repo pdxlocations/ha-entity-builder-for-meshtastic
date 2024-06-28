@@ -51,6 +51,11 @@ includes.add_argument(
     action='store_true',
 )
 includes.add_argument(
+    "--fahrenheit",
+    help="Use Fahrenheit instead of Celsius.",
+    action='store_true',
+)
+includes.add_argument(
     "--no-temperature",
     help="Don't include a temperature sensor.",
     action='store_true',
@@ -92,11 +97,6 @@ parser.add_argument(
     help="Only generate sensors for these nodes. If not provided, all nodes in the NodeDB will be included. Example: `\"!XXXXXXXX\", \"!YYYYYYYY\"`.",
     nargs='*',
     action='store',
-)
-parser.add_argument(
-    "--fahrenheit",
-    help="Use Fahrenheit instead of sane Celsius.",
-    action='store_true',
 )
 
 args = parser.parse_args()

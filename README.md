@@ -16,14 +16,18 @@ script).
 
 ## Usage
 ```
-usage: entity-builder.py [-h] [--port PORT | --host HOST | --ble BLE] [--gateway GATEWAY] [--root-topic ROOT_TOPIC]
-                          [--no-messages] [--no-temperature] [--no-humidity] [--no-pressure] [--gas-resistance]
-                          [--power-ch1] [--power-ch2] [--power-ch3] [--nodes [NODES ...]] [--fahrenheit]
+usage: entity-builder.py [-h] [--port PORT | --host HOST | --ble BLE]
+                         [--gateway GATEWAY] [--root-topic ROOT_TOPIC]
+                         [--no-messages] [--fahrenheit] [--no-temperature]
+                         [--no-humidity] [--no-pressure] [--gas-resistance]
+                         [--power-ch1] [--power-ch2] [--power-ch3]
+                         [--nodes [NODES [NODES ...]]]
 
-options:
-  --nodes [NODES ...]   Only generate sensors for these nodes. If not provided, all nodes in the NodeDB will be
-                        included. Example: `"!XXXXXXXX", "!YYYYYYYY"`.
-  --fahrenheit          Use Fahrenheit instead of sane Celsius.
+optional arguments:
+  --nodes [NODES [NODES ...]]
+                        Only generate sensors for these nodes. If not
+                        provided, all nodes in the NodeDB will be included.
+                        Example: `"!XXXXXXXX", "!YYYYYYYY"`.
 
 Help:
   -h, --help            Show this help message and exit.
@@ -31,25 +35,30 @@ Help:
 Connection:
   Optional arguments to specify a device to connect to and how.
 
-  --port PORT           The port to connect to via serial, e.g. `/dev/ttyUSB0`.
+  --port PORT           The port to connect to via serial, e.g.
+                        `/dev/ttyUSB0`.
   --host HOST           The hostname or IP address to connect to using TCP.
   --ble BLE             The BLE device MAC address or name to connect to.
 
 MQTT:
   Arguments to specify the gateway node and root MQTT topics
 
-  --gateway GATEWAY     The ID of the MQTT gateway node, e.g. !12345678. If not provided, will use the ID of the
-                        locally connected node.
+  --gateway GATEWAY     The ID of the MQTT gateway node, e.g. !12345678. If
+                        not provided, will use the ID of the locally connected
+                        node.
   --root-topic ROOT_TOPIC
-                        The root topic to use in MQTT for the generated files. If not provided, will attempt to get
-                        the root path from the local node and use all channels. Wildcard: `+`. Example: to include all
-                        channels with the root topic `msh/`, use `msh/2/json/+`. To include just LongFast, use
-                        `msh/2/json/LongFast`
+                        The root topic to use in MQTT for the generated files.
+                        If not provided, will attempt to get the root path
+                        from the local node and use all channels. Wildcard:
+                        `+`. Example: to include all channels with the root
+                        topic `msh/`, use `msh/2/json/+`. To include just
+                        LongFast, use `msh/2/json/LongFast`
 
 Includes:
   Arguments to specify what sensors to generate for each node.
 
   --no-messages         Don't include a sensor for messages from the node.
+  --fahrenheit          Use Fahrenheit instead of Celsius.
   --no-temperature      Don't include a temperature sensor.
   --no-humidity         Don't include a humidity sensor.
   --no-pressure         Don't include a pressure sensor.
@@ -58,5 +67,6 @@ Includes:
   --power-ch2           Include a power & voltage channel 2 sensor.
   --power-ch3           Include a power & voltage channel 3 sensor.
 
-If no connection arguments are specified, we attempt a serial connection and then a TCP connection to localhost.
+If no connection arguments are specified, we attempt a serial connection and
+then a TCP connection to localhost.
 ```
