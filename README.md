@@ -64,6 +64,7 @@ Includes:
   --power-ch1           Include a power & voltage channel 1 sensor.
   --power-ch2           Include a power & voltage channel 2 sensor.
   --power-ch3           Include a power & voltage channel 3 sensor.
+  --use-celcius         Show Celcius instead of Fahrenheit
 
 If no connection arguments are specified, we attempt a serial connection and
 then a TCP connection to localhost.
