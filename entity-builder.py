@@ -388,7 +388,7 @@ for node_num, node in iface.nodes.items():
       
     if include_pressure:
       config += f'''
-  - name: "{node_short_name} Pressure"
+  - name: "{node_short_name} Barometric Pressure"
     unique_id: "{int(node_num):08x}_pressure"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
