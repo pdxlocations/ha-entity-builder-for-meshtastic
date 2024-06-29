@@ -70,3 +70,5 @@ Includes:
 If no connection arguments are specified, we attempt a serial connection and
 then a TCP connection to localhost.
 ```
+
+![Alt](https://repobeats.axiom.co/api/embed/5a785e95329170072b97787b5d907ce5901fba15.svg "Repobeats analytics image")
