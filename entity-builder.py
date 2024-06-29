@@ -51,6 +51,11 @@ includes.add_argument(
     action='store_true',
 )
 includes.add_argument(
+    "--fahrenheit",
+    help="Use Fahrenheit instead of Celsius.",
+    action='store_true',
+)
+includes.add_argument(
     "--no-temperature",
     help="Don't include a temperature sensor.",
     action='store_true',

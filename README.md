@@ -18,9 +18,9 @@ script).
 ```
 usage: entity-builder.py [-h] [--port PORT | --host HOST | --ble BLE]
                          [--gateway GATEWAY] [--root-topic ROOT_TOPIC]
-                         [--no-messages] [--no-temperature] [--no-humidity]
-                         [--no-pressure] [--gas-resistance] [--power-ch1]
-                         [--power-ch2] [--power-ch3]
+                         [--no-messages] [--fahrenheit] [--no-temperature]
+                         [--no-humidity] [--no-pressure] [--gas-resistance]
+                         [--power-ch1] [--power-ch2] [--power-ch3]
                          [--nodes [NODES [NODES ...]]]
 
 optional arguments:
@@ -49,14 +49,16 @@ MQTT:
   --root-topic ROOT_TOPIC
                         The root topic to use in MQTT for the generated files.
                         If not provided, will attempt to get the root path
-                        from the local node and use `LongFast` as the channel.
-                        Wildcard: `+`. Example: to include all channels with
-                        the root topic `msh/`, use `msh/2/json/+`.
+                        from the local node and use all channels. Wildcard:
+                        `+`. Example: to include all channels with the root
+                        topic `msh/`, use `msh/2/json/+`. To include just
+                        LongFast, use `msh/2/json/LongFast`
 
 Includes:
   Arguments to specify what sensors to generate for each node.
 
   --no-messages         Don't include a sensor for messages from the node.
+  --fahrenheit          Use Fahrenheit instead of Celsius.
   --no-temperature      Don't include a temperature sensor.
   --no-humidity         Don't include a humidity sensor.
   --no-pressure         Don't include a pressure sensor.
@@ -68,3 +70,5 @@ Includes:
 If no connection arguments are specified, we attempt a serial connection and
 then a TCP connection to localhost.
 ```
+
+![Alt](https://repobeats.axiom.co/api/embed/5a785e95329170072b97787b5d907ce5901fba15.svg "Repobeats analytics image")
