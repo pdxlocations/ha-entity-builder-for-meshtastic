@@ -93,7 +93,7 @@ parser.add_argument(
     nargs='*',
     action='store',
 )
-parser.add_argument(
+includes.add_argument(
     "--fahrenheit",
     help="Use Fahrenheit instead of Celsius.",
     action='store_true',
