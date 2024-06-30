@@ -67,7 +67,7 @@ includes.add_argument(
 )
 includes.add_argument(
     "--no-pressure",
-    help="Don't include a pressure sensor.",
+    help="Don't include a barometric pressure sensor.",
     action='store_true',
 )
 
@@ -78,17 +78,17 @@ includes.add_argument(
 )
 includes.add_argument(
     "--power-ch1",
-    help="Include a power & voltage channel 1 sensor.",
+    help="Include current & voltage channel 1 sensor.",
     action='store_true',
 )
 includes.add_argument(
     "--power-ch2",
-    help="Include a power & voltage channel 2 sensor.",
+    help="Include current & voltage channel 2 sensor.",
     action='store_true',
 )
 includes.add_argument(
     "--power-ch3",
-    help="Include a power & voltage channel 3 sensor.",
+    help="Include current & voltage channel 3 sensor.",
     action='store_true',
 )
 
@@ -388,7 +388,7 @@ for node_num, node in iface.nodes.items():
       
     if include_pressure:
       config += f'''
-  - name: "{node_short_name} Pressure"
+  - name: "{node_short_name} Barometric Pressure"
     unique_id: "{int(node_num):08x}_pressure"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
@@ -425,30 +425,30 @@ for node_num, node in iface.nodes.items():
     if include_power_ch1:
       config += f'''
   # {node_long_name}
-  - name: "{node_short_name} Battery Voltage Ch1"
-    unique_id: "{int(node_num):08x}_battery_voltage_ch1"
+  - name: "{node_short_name} Voltage Sensor Ch1"
+    unique_id: "{int(node_num):08x}_voltage_sensor_ch1"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.voltage_ch1 is defined %}}
       {{{{ (value_json.payload.voltage_ch1 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage_ch1') }}}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_voltage_sensor_ch1') }}}}
       {{% endif %}}
     unit_of_measurement: "V"
     icon: "mdi:lightning-bolt"
     device:
       identifiers: "meshtastic_{node_num}"
 
-  - name: "{node_short_name} Battery Current Ch1"
-    unique_id: "{int(node_num):08x}_battery_current_ch1"
+  - name: "{node_short_name} Current Sensor Ch1"
+    unique_id: "{int(node_num):08x}_current_sensor_ch1"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.current_ch1 is defined %}}
       {{{{ (value_json.payload.current_ch1 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_current_ch1') }}}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_current_sensor_ch1') }}}}
       {{% endif %}}
     unit_of_measurement: "mA"
     icon: "mdi:waves"
@@ -458,30 +458,30 @@ for node_num, node in iface.nodes.items():
     
     if include_power_ch2:
       config += f'''
-  - name: "{node_short_name} Battery Voltage Ch2"
-    unique_id: "{int(node_num):08x}_battery_voltage_ch2"
+  - name: "{node_short_name} Voltage Sensor Ch2"
+    unique_id: "{int(node_num):08x}_voltage_sensor_ch2"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.voltage_ch2 is defined %}}
       {{{{ (value_json.payload.voltage_ch2 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage_ch2') }}}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_voltage_sensor_ch2') }}}}
       {{% endif %}}
     unit_of_measurement: "V"
     icon: "mdi:lightning-bolt"
     device:
       identifiers: "meshtastic_{node_num}"
 
-  - name: "{node_short_name} Battery Current Ch2"
-    unique_id: "{int(node_num):08x}_battery_current_ch2"
+  - name: "{node_short_name} Current Sensor Ch2"
+    unique_id: "{int(node_num):08x}_current_sensor_ch2"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.current_ch2 is defined %}}
       {{{{ (value_json.payload.current_ch2 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_current_ch2') }}}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_current_sensor_ch2') }}}}
       {{% endif %}}
     unit_of_measurement: "mA"
     icon: "mdi:waves"
@@ -491,30 +491,30 @@ for node_num, node in iface.nodes.items():
       
     if include_power_ch3:
       config += f'''
-  - name: "{node_short_name} Battery Voltage Ch3"
-    unique_id: "{int(node_num):08x}_battery_voltage_ch3"
+  - name: "{node_short_name} Voltage Sensor Ch3"
+    unique_id: "{int(node_num):08x}_voltage_sensor_ch3"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.voltage_ch3 is defined %}}
       {{{{ (value_json.payload.voltage_ch3 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage_ch3') }}}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_voltage_sensor_ch3') }}}}
       {{% endif %}}
     unit_of_measurement: "V"
     icon: "mdi:lightning-bolt"
     device:
       identifiers: "meshtastic_{node_num}"
 
-  - name: "{node_short_name} Battery Current Ch3"
-    unique_id: "{int(node_num):08x}_battery_current_ch3"
+  - name: "{node_short_name} Current Sensor Ch3"
+    unique_id: "{int(node_num):08x}_current_sensor_ch3"
     state_topic: "{root_topic}/{gateway_id}"
     state_class: measurement
     value_template: >-
       {{% if value_json.from == {node_num} and value_json.payload.current_ch3 is defined %}}
       {{{{ (value_json.payload.current_ch3 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_current_ch3') }}}}
+        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_current_sensor_ch3') }}}}
       {{% endif %}}
     unit_of_measurement: "mA"
     icon: "mdi:waves"
