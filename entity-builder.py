@@ -260,7 +260,7 @@ for node_num, node in iface.nodes.items():
           value_json.payload.temperature is not defined %}}
       {{{{ (value_json.payload.voltage | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_voltage') }}}}
+        {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "V"
     icon: "mdi:lightning-bolt"
@@ -275,7 +275,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.battery_level is defined %}}
           {{{{ (value_json.payload.battery_level | float) | round(2) }}}}
       {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_battery_percent') }}}}
+          {{{{ this.state }}}}
       {{% endif %}}
     device_class: battery
     unit_of_measurement: "%"
@@ -306,7 +306,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.channel_utilization is defined %}}
           {{{{ (value_json.payload.channel_utilization | float) | round(2) }}}}
       {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_chutil') }}}}
+          {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "%"
     icon: "mdi:signal-distance-variant"
@@ -321,7 +321,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.air_util_tx is defined %}}
           {{{{ (value_json.payload.air_util_tx | float) | round(2) }}}}
       {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_airutiltx') }}}}
+          {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "%"
     icon: "mdi:percent-box-outline"
@@ -338,7 +338,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.text is defined %}}
           {{{{ value_json.payload.text }}}}
       {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_messages') }}}}
+          {{{{ this.state }}}}
       {{% endif %}}
     device:
       identifiers: "meshtastic_{node_num}"
@@ -361,7 +361,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.temperature is defined %}}
           {{{{ (((value_json.payload.temperature | float) {temp_mod}) | round(2) }}}}
       {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_temperature') }}}}
+          {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "{temp_unit}"
     icon: "mdi:sun-thermometer"
@@ -379,7 +379,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.relative_humidity is defined %}}
           {{{{ (value_json.payload.relative_humidity | float) | round(2) }}}}
       {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_humidity') }}}}
+          {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "%"
     icon: "mdi:water-percent"
@@ -397,7 +397,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.barometric_pressure is defined %}}
           {{{{ (value_json.payload.barometric_pressure | float) | round(2) }}}}
       {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_pressure') }}}}
+          {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "hPa"
     icon: "mdi:chevron-double-down"
@@ -415,7 +415,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.gas_resistance is defined %}}
           {{{{ (value_json.payload.gas_resistance | float) | round(2) }}}}
       {{% else %}}
-          {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_gas_resistance') }}}}
+          {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "MOhms"
     icon: "mdi:dots-hexagon"
@@ -434,7 +434,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.voltage_ch1 is defined %}}
       {{{{ (value_json.payload.voltage_ch1 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_voltage_sensor_ch1') }}}}
+        {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "V"
     icon: "mdi:lightning-bolt"
@@ -449,7 +449,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.current_ch1 is defined %}}
       {{{{ (value_json.payload.current_ch1 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_current_sensor_ch1') }}}}
+        {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "mA"
     icon: "mdi:waves"
@@ -467,7 +467,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.voltage_ch2 is defined %}}
       {{{{ (value_json.payload.voltage_ch2 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_voltage_sensor_ch2') }}}}
+        {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "V"
     icon: "mdi:lightning-bolt"
@@ -482,7 +482,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.current_ch2 is defined %}}
       {{{{ (value_json.payload.current_ch2 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_current_sensor_ch2') }}}}
+        {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "mA"
     icon: "mdi:waves"
@@ -500,7 +500,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.voltage_ch3 is defined %}}
       {{{{ (value_json.payload.voltage_ch3 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_voltage_sensor_ch3') }}}}
+        {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "V"
     icon: "mdi:lightning-bolt"
@@ -515,7 +515,7 @@ for node_num, node in iface.nodes.items():
       {{% if value_json.from == {node_num} and value_json.payload.current_ch3 is defined %}}
       {{{{ (value_json.payload.current_ch3 | float) | round(2) }}}}
       {{% else %}}
-        {{{{ states('sensor.{node_short_name.lower().replace(" ", "_")}_current_sensor_ch3') }}}}
+        {{{{ this.state }}}}
       {{% endif %}}
     unit_of_measurement: "mA"
     icon: "mdi:waves"
