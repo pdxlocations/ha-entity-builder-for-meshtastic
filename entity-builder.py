@@ -201,6 +201,7 @@ for node_num, node in iface.nodes.items():
       {{% endif %}}
     device:
       name: "{node_long_name}"
+      model: "{hardware_model}"
       identifiers:
         - "meshtastic_{node_num}"
 
