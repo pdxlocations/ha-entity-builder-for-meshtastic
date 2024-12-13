@@ -203,6 +203,7 @@ for node_num, node in iface.nodes.items():
     device:
       name: "{node_long_name}"
       model: "{hardware_model}"
+      serial_number: "{node_id}"
       identifiers:
         - "meshtastic_{node_num}"
 
