@@ -187,6 +187,7 @@ for node_num, node in iface.nodes.items():
     """
 
     config = f'''
+  # {node_long_name}
   - name: "{node_short_name} Last Heard"
     unique_id: "{int(node_num):08x}_last_heard"
     state_topic: "{root_topic}/{gateway_id}"
@@ -200,7 +201,6 @@ for node_num, node in iface.nodes.items():
         {{{{ this.state }}}}
       {{% endif %}}
     device:
-      name: "{node_long_name}"
       model: "{hardware_model}"
       identifiers:
         - "meshtastic_{node_num}"
@@ -425,7 +425,6 @@ for node_num, node in iface.nodes.items():
     
     if include_power_ch1:
       config += f'''
-  # {node_long_name}
   - name: "{node_short_name} Voltage Sensor Ch1"
     unique_id: "{int(node_num):08x}_voltage_sensor_ch1"
     state_topic: "{root_topic}/{gateway_id}"
